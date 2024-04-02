@@ -1,19 +1,29 @@
-export const Console = {
-  print: (message) => {
-    console.log(message);
+export const MyUtils = {
+  userInput: "",
+
+  setUserInput: (input) => {
+    MyUtils.userInput = input;
   },
 
-  readLineAsync: () => {
-    return new Promise((resolve, reject) => {
-      const readLine = require("readline").createInterface({
-        input: process.stdin,
-        output: process.stdout,
-      });
+  Console: {
+    print: (message) => {
+      console.log(message);
+    },
 
-      readLine.question("", (input) => {
-        readLine.close();
-        resolve(input);
+    readLineAsync: () => {
+      return new Promise((resolve) => {
+        const readLine = require("readline").createInterface({
+          input: process.stdin,
+          output: process.stdout,
+        });
+
+        readLine.question("", (input) => {
+          readLine.close();
+          resolve(input);
+        });
       });
-    });
+    },
   },
 };
+
+export default MyUtils;
