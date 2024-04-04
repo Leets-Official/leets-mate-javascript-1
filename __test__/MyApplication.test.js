@@ -1,5 +1,5 @@
-import App from "../src/App";
-import { MyUtils } from "../Utils/MyUtils";
+const App = require("../src/App");
+const MyUtils = require("../Utils/MyUtils");
 
 describe("오늘의 짝꿍은?", () => {
   beforeEach(() => {

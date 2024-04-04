@@ -1,4 +1,6 @@
-export const MyUtils = {
+const readline = require("readline");
+
+const MyUtils = {
   userInput: "",
 
   setUserInput: (input) => {
@@ -12,13 +14,13 @@ export const MyUtils = {
 
     readLineAsync: () => {
       return new Promise((resolve) => {
-        const readLine = require("readline").createInterface({
+        const rl = readline.createInterface({
           input: process.stdin,
           output: process.stdout,
         });
 
-        readLine.question("", (input) => {
-          readLine.close();
+        rl.question("", (input) => {
+          rl.close();
           resolve(input);
         });
       });
@@ -26,4 +28,4 @@ export const MyUtils = {
   },
 };
 
-export default MyUtils;
+module.exports = MyUtils;

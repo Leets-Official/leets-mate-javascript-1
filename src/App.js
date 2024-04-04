@@ -1,4 +1,4 @@
-import { MyUtils } from "../Utils/MyUtils";
+const MyUtils = require("../Utils/MyUtils");
 
 class App {
   async play() {
@@ -33,3 +33,7 @@ class App {
 }
 
 export default App;
+
+module.exports = App;
+
+new App().play();
