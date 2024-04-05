@@ -4,6 +4,7 @@ const MyUtils = {
   userInput: "",
   userInputArray: [],
   maxPairs: 0,
+  result: [],
 
   setUserInput: (input) => {
     MyUtils.userInput = input;
@@ -27,7 +28,6 @@ const MyUtils = {
           input: process.stdin,
           output: process.stdout,
         });
-
         rl.question("", (input) => {
           rl.close();
           resolve(input);
