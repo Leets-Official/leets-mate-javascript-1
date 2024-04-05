@@ -2,9 +2,18 @@ const readline = require("readline");
 
 const MyUtils = {
   userInput: "",
+  userInputArray: [],
+  maxPairs: 0,
 
   setUserInput: (input) => {
     MyUtils.userInput = input;
+  },
+  setUserInputArray: (input) => {
+    MyUtils.userInputArray = input;
+  },
+
+  setMaxPairs: (input) => {
+    MyUtils.maxPairs = input;
   },
 
   Console: {
