@@ -4,9 +4,9 @@ class App {
   async play() {
     try {
       MyUtils.Console.print("[Leets 오늘의 짝에게]를 시작합니다.");
-      await this.receive();
+      await this.receiveInput();
       while (true) {
-        this.give();
+        this.recommendPairs();
         if (await this.replay() == 'n') {
           MyUtils.Console.print("자리를 이동해 서로에게 인사해주세요.");
           break;
@@ -19,12 +19,12 @@ class App {
     }
   }
 
-  async receive() {
+  async receiveInput() {
     await this.getInputNames();
     await this.getMaxPairs();
   }
 
-  give() {
+  recommendPairs() {
     this.shuffle();
     this.createPairs();
     this.printResult();
