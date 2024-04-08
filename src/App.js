@@ -5,12 +5,14 @@ class App {
     try {
       MyUtils.Console.print("[Leets 오늘의 짝에게]를 시작합니다.");
       await this.receive();
-      this.give();
-      while (await this.replay() == 'y') {
-        MyUtils.Console.print("--------------------------------");
+      while (true) {
         this.give();
+        if (await this.replay() == 'n') {
+          MyUtils.Console.print("자리를 이동해 서로에게 인사해주세요.");
+          break;
+        }
+        MyUtils.Console.print("--------------------------------");
       }
-      MyUtils.Console.print("자리를 이동해 서로에게 인사해주세요.");
       return MyUtils.result;
     } catch (error) {
       throw new Error(`[ERROR] ${error.message}`);
@@ -39,9 +41,9 @@ class App {
       MyUtils.setUserInputArray(MyUtils.userInput.split(','));
       return;
     } catch (error) {
-      throw error
+      throw error;
     }
-    
+
   }
 
   async getMaxPairs() {
@@ -51,7 +53,7 @@ class App {
       if (MyUtils.maxPairs > MyUtils.userInputArray.length) throw Error(`최대 짝 수는 이름의 갯수보다 클 수 없습니다.`);
       return;
     } catch (error) {
-      throw error
+      throw error;
     }
   }
 
@@ -77,7 +79,7 @@ class App {
   }
 
   async replay() {
-    MyUtils.Console.print("다시 구성하시겠습니까? (y or n): ")
+    MyUtils.Console.print("다시 구성하시겠습니까? (y or n): ");
     return await MyUtils.Console.readLineAsync();
   }
 }
