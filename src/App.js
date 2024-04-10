@@ -18,14 +18,12 @@ class App {
     const userInput = await this.promptForInput(
       "멤버의 이름을 입력해주세요. (, 로 구분)"
     );
-    this.validateNames(userInput);
-    return userInput.split(",").map((name) => name.trim());
+    return this.validateNames(userInput);
   }
 
   async getMaxPairs() {
     const userInput = await this.promptForInput("최대 짝 수를 입력해주세요.");
-    this.validateNumber(userInput);
-    return parseInt(userInput, 10);
+    return this.validateNumber(userInput);
   }
 
   async generatePairsAndPrint(names, maxPairs) {
@@ -62,6 +60,7 @@ class App {
 
   validateNames(userInput) {
     const names = userInput.split(",").map((name) => name.trim());
+
     if (names.some((name) => name.includes(" "))) {
       throw new Error("이름에 공백이 포함되어 있을 수 없습니다.");
     }
@@ -81,12 +80,16 @@ class App {
     if (names.some((name) => name.length > 6)) {
       throw new Error("이름은 6글자 이하로 입력해야 합니다.");
     }
+
+    return names;
   }
 
   validateNumber(userInput) {
     if (!userInput.match(/^[0-9]+$/)) {
       throw new Error("숫자만 입력해주세요");
     }
+
+    return parseInt(userInput, 10);
   }
 
   createPairs(names, maxPairs) {
