@@ -4,30 +4,9 @@ class App {
   async play() {
     try {
       MyUtils.Console.print("[Leets 오늘의 짝에게]를 시작합니다.");
-      let continuePrompt = "y";
       const names = await this.getInputNames();
       const maxPairs = await this.getMaxPairs();
-      let result = [];
-
-      while (continuePrompt.toLowerCase() === "y") {
-        const pairs = this.createPairs(names, maxPairs);
-        this.printResult(pairs);
-        result.push(...pairs);
-
-        MyUtils.Console.print("다시 구성하시겠습니까? (y or n):");
-        continuePrompt = await MyUtils.Console.readLineAsync();
-        if (
-          continuePrompt.toLowerCase() !== "y" &&
-          continuePrompt.toLowerCase() !== "n"
-        ) {
-          MyUtils.Console.print("잘못된 입력입니다. 다시 입력해주세요.");
-          continuePrompt = "y";
-        }
-        if (continuePrompt.toLowerCase() === "y") {
-          MyUtils.Console.print("--------------------------------");
-        }
-      }
-
+      const result = await this.generatePairsAndPrint(names, maxPairs);
       MyUtils.Console.print("자리를 이동해 서로에게 인사해주세요.");
       return result;
     } catch (error) {
@@ -36,37 +15,74 @@ class App {
   }
 
   async getInputNames() {
-    MyUtils.Console.print("멤버의 이름을 입력해주세요. (, 로 구분)");
+    const userInput = await this.promptForInput(
+      "멤버의 이름을 입력해주세요. (, 로 구분)"
+    );
+    this.validateNames(userInput);
+    return userInput.split(",").map((name) => name.trim());
+  }
+
+  async getMaxPairs() {
+    const userInput = await this.promptForInput("최대 짝 수를 입력해주세요.");
+    this.validateNumber(userInput);
+    return parseInt(userInput, 10);
+  }
+
+  async generatePairsAndPrint(names, maxPairs) {
+    const result = [];
+    let continuePrompt = "y";
+
+    while (continuePrompt.toLowerCase() === "y") {
+      const pairs = this.createPairs(names, maxPairs);
+      this.printResult(pairs);
+      result.push(...pairs);
+      continuePrompt = await this.promptForInput(
+        "다시 구성하시겠습니까? (y or n):",
+        "y",
+        "n"
+      );
+    }
+
+    return result;
+  }
+
+  async promptForInput(message, ...validOptions) {
+    MyUtils.Console.print(message);
     const userInput = await MyUtils.Console.readLineAsync();
 
+    if (
+      validOptions.length &&
+      !validOptions.includes(userInput.toLowerCase())
+    ) {
+      throw new Error("잘못된 입력입니다. 다시 입력해주세요.");
+    }
+
+    return userInput;
+  }
+
+  validateNames(userInput) {
     const names = userInput.split(",").map((name) => name.trim());
     if (names.some((name) => name.includes(" "))) {
       throw new Error("이름에 공백이 포함되어 있을 수 없습니다.");
     }
 
-    if (userInput.match(/^[\sㄱ-ㅎㅏ-ㅣ가-힣,\+]+$/)) {
-      if (!userInput.match(/^[\s가-힣,]+$/)) {
-        throw new Error("완전한 한 음절이어야 합니다.");
-      }
-    } else {
+    if (!userInput.match(/^[\sㄱ-ㅎㅏ-ㅣ가-힣,\+]+$/)) {
       throw new Error("이름은 한글로 입력해야 합니다.");
+    }
+
+    if (!userInput.match(/^[\s가-힣,]+$/)) {
+      throw new Error("완전한 한 음절이어야 합니다.");
     }
 
     if (userInput.trim().endsWith(",")) {
       throw new Error("입력은 ','로 끝날 수 없습니다.");
     }
-
-    return userInput.split(",").map((name) => name.trim());
   }
 
-  async getMaxPairs() {
-    MyUtils.Console.print("최대 짝 수를 입력해주세요.");
-    const userInput = await MyUtils.Console.readLineAsync();
-
+  validateNumber(userInput) {
     if (!userInput.match(/^[0-9]+$/)) {
       throw new Error("숫자만 입력해주세요");
     }
-    return parseInt(userInput, 10);
   }
 
   createPairs(names, maxPairs) {
