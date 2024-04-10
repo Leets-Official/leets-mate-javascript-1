@@ -12,7 +12,18 @@ class App {
   }
 
   async getInputNames() {
-    return;
+    MyUtils.Console.print("멤버의 이름을 입력해주세요. (, 로 구분)");
+    const userInput = await MyUtils.Console.readLineAsync();
+
+    if (!userInput.match(/^[\s가-힣,]+$/)) {
+      throw new Error("이름은 한글로 입력해야 합니다.");
+    }
+
+    if (userInput.trim().endsWith(",")) {
+      throw new Error("이름은 ','로 끝나면 안 됩니다.");
+    }
+
+    return userInput.split(",").map((name) => name.trim());
   }
 
   async getMaxPairs() {
