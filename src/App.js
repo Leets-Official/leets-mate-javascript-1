@@ -27,7 +27,13 @@ class App {
   }
 
   async getMaxPairs() {
-    return;
+    MyUtils.Console.print("최대 짝 수를 입력해주세요.");
+    const userInput = await MyUtils.Console.readLineAsync();
+
+    if (!userInput.match(/^[0-9]+$/)) {
+      throw new Error("숫자만 입력해주세요");
+    }
+    return parseInt(userInput, 10);
   }
 
   createPairs(names, maxPairs) {
