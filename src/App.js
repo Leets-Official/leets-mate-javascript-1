@@ -39,12 +39,21 @@ class App {
     MyUtils.Console.print("멤버의 이름을 입력해주세요. (, 로 구분)");
     const userInput = await MyUtils.Console.readLineAsync();
 
-    if (!userInput.match(/^[\s가-힣,]+$/)) {
+    const names = userInput.split(",").map((name) => name.trim());
+    if (names.some((name) => name.includes(" "))) {
+      throw new Error("이름에 공백이 포함되어 있을 수 없습니다.");
+    }
+
+    if (userInput.match(/^[\sㄱ-ㅎㅏ-ㅣ가-힣,\+]+$/)) {
+      if (!userInput.match(/^[\s가-힣,]+$/)) {
+        throw new Error("완전한 한 음절이어야 합니다.");
+      }
+    } else {
       throw new Error("이름은 한글로 입력해야 합니다.");
     }
 
     if (userInput.trim().endsWith(",")) {
-      throw new Error("이름은 ','로 끝나면 안 됩니다.");
+      throw new Error("입력은 ','로 끝날 수 없습니다.");
     }
 
     return userInput.split(",").map((name) => name.trim());
