@@ -87,7 +87,9 @@ describe("오늘의 짝꿍은?", () => {
     const app = new App();
     const inputSpy = await mockInput(["John,Doe"]);
 
-    await expect(app.play()).rejects.toThrow("[ERROR]");
+    await expect(app.play()).rejects.toThrow(
+      "[ERROR] 이름은 한글로 입력해야 합니다."
+    );
     inputSpy.mockRestore();
   });
 
@@ -98,7 +100,9 @@ describe("오늘의 짝꿍은?", () => {
       "6",
     ]);
 
-    await expect(app.play()).rejects.toThrow(`[ERROR]`);
+    await expect(app.play()).rejects.toThrow(
+      `[ERROR] 최대 짝 수는 이름의 갯수보다 클 수 없습니다.`
+    );
     inputSpy.mockRestore();
   });
 
