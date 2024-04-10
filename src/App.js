@@ -37,7 +37,22 @@ class App {
   }
 
   createPairs(names, maxPairs) {
-    return;
+    if (maxPairs > names.length) {
+      throw new Error("최대 짝 수는 이름의 갯수보다 클 수 없습니다.");
+    }
+
+    const pairs = [];
+    const shuffledNames = this.shuffle(names);
+
+    while (shuffledNames.length >= 2) {
+      pairs.push(shuffledNames.splice(0, maxPairs));
+    }
+
+    if (shuffledNames.length === 1) {
+      pairs.push([shuffledNames[0]]);
+    }
+
+    return pairs;
   }
 
   shuffle(array) {
