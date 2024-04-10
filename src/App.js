@@ -29,6 +29,7 @@ class App {
       }
 
       MyUtils.Console.print("자리를 이동해 서로에게 인사해주세요.");
+      return result;
     } catch (error) {
       throw new Error(`[ERROR] ${error.message}`);
     }
