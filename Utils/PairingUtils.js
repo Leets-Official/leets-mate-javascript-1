@@ -1,6 +1,6 @@
 const { printResult, promptForInput } = require("../Utils/UiUtils");
 
-const shuffle = async (array) => {
+const shuffle = (array) => {
   if (array instanceof Array) {
     const shuffledArray = [...array];
     for (let i = shuffledArray.length - 1; i > 0; i--) {
@@ -14,14 +14,14 @@ const shuffle = async (array) => {
   }
 };
 
-const createPairs = async (names, maxPairs) => {
+const createPairs = (names, maxPairs) => {
   if (Array.isArray(names) && typeof maxPairs === "number") {
     if (maxPairs > names.length) {
       throw new Error("최대 짝 수는 이름의 갯수보다 클 수 없습니다.");
     }
 
     const pairs = [];
-    const shuffledNames = await shuffle(names);
+    const shuffledNames = shuffle(names);
 
     while (shuffledNames.length >= 2) {
       pairs.push(shuffledNames.splice(0, maxPairs));
@@ -41,7 +41,7 @@ const generatePairsAndPrint = async (names, maxPairs) => {
     let continuePrompt = "y";
 
     while (continuePrompt.toLowerCase() === "y") {
-      const pairs = await createPairs(names, maxPairs);
+      const pairs = createPairs(names, maxPairs);
       printResult(pairs);
       result.push(...pairs);
       continuePrompt = await promptForInput(

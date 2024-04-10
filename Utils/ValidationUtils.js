@@ -1,6 +1,6 @@
 const MyUtils = require("./MyUtils");
 
-const validateNameInput = async (userInput) => {
+const validateNameInput = (userInput) => {
   if (!userInput.match(/^[\sㄱ-ㅎㅏ-ㅣ가-힣,\+]+$/)) {
     throw new Error("이름은 한글로 입력해야 합니다.");
   }
@@ -23,7 +23,7 @@ const validateNameInput = async (userInput) => {
   return namesArray;
 };
 
-const validateNumberInput = async (userInput) => {
+const validateNumberInput = (userInput) => {
   if (!userInput.match(/^[0-9]+$/)) {
     throw new Error("숫자만 입력해주세요");
   }

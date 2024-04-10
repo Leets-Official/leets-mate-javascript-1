@@ -22,8 +22,7 @@ const getInputNames = async () => {
   const userInput = await promptForInput(
     "멤버의 이름을 입력해주세요. (, 로 구분)"
   );
-  const names = await validateNameInput(userInput);
-  return names;
+  return validateNameInput(userInput);
 };
 
 const getMaxPairs = async () => {
