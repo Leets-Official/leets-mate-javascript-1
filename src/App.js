@@ -68,7 +68,15 @@ class App {
   }
 
   printResult(pairs) {
-    return;
+    if (pairs.length === 0) {
+      MyUtils.Console.print("짝을 만들 수 없습니다.");
+      return;
+    }
+    MyUtils.Console.print("오늘의 짝 추천 결과입니다.");
+    pairs.forEach((pair) => {
+      MyUtils.Console.print(`[ ${pair.join(" | ")} ]`);
+    });
+    MyUtils.Console.print("추천을 완료했습니다.");
   }
 }
 
