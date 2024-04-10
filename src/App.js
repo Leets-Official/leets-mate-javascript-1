@@ -4,8 +4,31 @@ class App {
   async play() {
     try {
       MyUtils.Console.print("[Leets 오늘의 짝에게]를 시작합니다.");
+      let continuePrompt = "y";
+      const names = await this.getInputNames();
+      const maxPairs = await this.getMaxPairs();
+      let result = [];
 
-      return result;
+      while (continuePrompt.toLowerCase() === "y") {
+        const pairs = this.createPairs(names, maxPairs);
+        this.printResult(pairs);
+        result.push(...pairs);
+
+        MyUtils.Console.print("다시 구성하시겠습니까? (y or n):");
+        continuePrompt = await MyUtils.Console.readLineAsync();
+        if (
+          continuePrompt.toLowerCase() !== "y" &&
+          continuePrompt.toLowerCase() !== "n"
+        ) {
+          MyUtils.Console.print("잘못된 입력입니다. 다시 입력해주세요.");
+          continuePrompt = "y";
+        }
+        if (continuePrompt.toLowerCase() === "y") {
+          MyUtils.Console.print("--------------------------------");
+        }
+      }
+
+      MyUtils.Console.print("자리를 이동해 서로에게 인사해주세요.");
     } catch (error) {
       throw new Error(`[ERROR] ${error.message}`);
     }
