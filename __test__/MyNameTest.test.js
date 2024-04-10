@@ -14,12 +14,6 @@ describe("오늘의 짝꿍은?", () => {
     return inputSpy;
   };
 
-  const mockOutput = () => {
-    const outputSpy = jest.spyOn(MyUtils.Console, "print");
-    outputSpy.mockClear();
-    return outputSpy;
-  };
-
   afterEach(() => {
     jest.restoreAllMocks();
   });
