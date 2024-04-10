@@ -77,6 +77,10 @@ class App {
     if (userInput.trim().endsWith(",")) {
       throw new Error("입력은 ','로 끝날 수 없습니다.");
     }
+
+    if (names.some((name) => name.length > 6)) {
+      throw new Error("이름은 6글자 이하로 입력해야 합니다.");
+    }
   }
 
   validateNumber(userInput) {
