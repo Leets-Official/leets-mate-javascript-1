@@ -78,6 +78,7 @@ class App {
 
   createPairs(names, maxPairs) {
     let pairs = [];
+    
     //원본 배열에 문제 없도록 복사해서 사용
     let namesCopy = [...names];
     for (let i = 0; i < namesCopy.length; i += parseInt(maxPairs)) {
