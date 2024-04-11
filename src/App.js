@@ -21,18 +21,20 @@ class App {
       
       //pair 재구성
       do{
-        MyUtils.Console.print("\n다시 구성하시겠습니까? (y/n) :");
+        MyUtils.Console.print("다시 구성하시겠습니까? (y/n) :");
         check = await MyUtils.Console.readLineAsync(); 
         if(check=='y'){
           MyUtils.Console.print("--------------------------------");
-          await this.shuffle(name); 
+          this.shuffle(name); 
           this.printResult(pair); 
         }
       } while(check =='y');
-      MyUtils.Console.print("자리를 이동해 서로에게 인사해 주세요.");
+      
+      MyUtils.Console.print("자리를 이동해 서로에게 인사해주세요.");
     } catch (error) {
       throw new Error(`[ERROR] ${error.message}`);
     }
+    return pair;
   }
   
   async getInputNames() {
@@ -40,7 +42,7 @@ class App {
     const kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; 
     let nameArray=[];
     try {
-      MyUtils.Console.print("\n멤버의 이름을 입력해 주세요. (, 로 구분)");
+      MyUtils.Console.print("멤버의 이름을 입력해주세요. (, 로 구분)");
   
       // 이름 입력
       const userName = await MyUtils.Console.readLineAsync();      
@@ -62,7 +64,7 @@ class App {
 
   async getMaxPairs(nameArray) {
     try {
-        MyUtils.Console.print("\n최대 짝 수를 입력해 주세요.");
+        MyUtils.Console.print("최대 짝 수를 입력해주세요.");
         const maxPairs = await MyUtils.Console.readLineAsync();
 
         // 입력 받은 멤버의 수 보다 많을 경우 다시 입력 받기
@@ -88,7 +90,7 @@ class App {
   }
   
 
-  async shuffle(array) {
+  shuffle(array) {
     let shuffledArray = array.slice();
     shuffledName = shuffledArray.sort(() => Math.random() - 0.5);
     pair = this.createPairs(shuffledName,maxPairs);
@@ -96,12 +98,12 @@ class App {
 
 
 printResult(pairs) {
-    MyUtils.Console.print("\n오늘의 짝 추천 결과입니다.");
+    MyUtils.Console.print("오늘의 짝 추천 결과입니다.");
     pairs.forEach(pair => {
       const formattedPair = pair.join(' | '); 
       MyUtils.Console.print(`[ ${formattedPair} ]`);
   });
-    MyUtils.Console.print("\n추천을 완료 했습니다.");
+    MyUtils.Console.print("추천을 완료 했습니다.");
     return;
   }
 }
