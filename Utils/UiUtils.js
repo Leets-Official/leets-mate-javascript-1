@@ -6,16 +6,25 @@ const {
 } = require("../Utils/ValidationUtils");
 
 const promptForInput = async (message, ...validOptions) => {
-  MyUtils.Console.print(message);
-  const userInput = await MyUtils.Console.readLineAsync();
-  if (userInput.toLowerCase() === "y")
-    MyUtils.Console.print("--------------------------------");
+  while (true) {
+    try {
+      MyUtils.Console.print(message);
+      const userInput = await MyUtils.Console.readLineAsync();
+      if (userInput.toLowerCase() === "y")
+        MyUtils.Console.print("--------------------------------");
 
-  if (validOptions.length && !validOptions.includes(userInput.toLowerCase())) {
-    throw new Error("잘못된 입력입니다. 다시 입력해주세요.");
+      if (
+        validOptions.length &&
+        !validOptions.includes(userInput.toLowerCase())
+      ) {
+        throw new Error("잘못된 입력입니다. 다시 입력해주세요.");
+      }
+
+      return userInput;
+    } catch (error) {
+      MyUtils.Console.print(`[ERROR] ${error.message}`);
+    }
   }
-
-  return userInput;
 };
 
 const getInputNames = async () => {
