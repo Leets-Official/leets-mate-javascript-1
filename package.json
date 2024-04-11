@@ -7,6 +7,6 @@
   },
   "scripts": {
     "test": "jest",
-    "start": "node src/App.js"
+    "start": "node src/AppStart.js"
   }
 }
