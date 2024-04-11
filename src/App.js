@@ -1,5 +1,8 @@
 const MyUtils = require("../Utils/MyUtils");
 
+let shuffledName = [];
+let pair = [];
+
 class App {
   async play() {
     try {
@@ -7,10 +10,15 @@ class App {
 
         let continueDrawing = true; //y입력하면 반복하기위한 변수
 
+        const names = await this.getInputNames();
+        const maxPairs = await this.getMaxPairs(names.length);
+        let result = [];
         while (continueDrawing) {
-            const names = await this.getInputNames();
-            const maxPairs = await this.getMaxPairs(names.length);
-            const pairs = this.createPairs(names, maxPairs);
+          if (result.length !== 0) {
+            MyUtils.Console.print("--------------------------------");
+          }
+          const pairs = this.shuffle(names, maxPairs);
+          result = pairs
 
             this.printResult(pairs);
 
@@ -18,19 +26,20 @@ class App {
         }
 
         MyUtils.Console.print('자리를 이동해 서로에게 인사해주세요.');
+        return result;
       } catch (error) {
-        MyUtils.Console.print(`[ERROR] ${error.message}`);
+        throw new Error(`[ERROR] ${error.message}`);
         }
   }
 
   async askForRedraw() { //다시 추첨할 지 물어보는 함수
-      MyUtils.Console.print('\n추첨을 완료했습니다. \n다시 구성하시겠습니까? (y or n): ');
+      MyUtils.Console.print('다시 구성하시겠습니까? (y or n): ');
       const answer = await MyUtils.Console.readLineAsync();
       return answer.toLowerCase() === 'y'; // 사용자가 y를 입력하면 true를 반환
   }
 
   async getInputNames() {
-    MyUtils.Console.print("참석자들의 이름을 입력해 주세요. (, 로 구분)\n");
+    MyUtils.Console.print("멤버의 이름을 입력해주세요. (, 로 구분)");
     const membersInput = await MyUtils.Console.readLineAsync();
     const members = membersInput.split(','); //쉼표로 구분하여 배열로 분리함  
 
@@ -47,7 +56,7 @@ class App {
   }
 
   async getMaxPairs(memberCount) { 
-    MyUtils.Console.print('최대 짝 수를 입력해 주세요.\n');
+    MyUtils.Console.print('최대 짝 수를 입력해주세요.');
     const maxPairsInput = await MyUtils.Console.readLineAsync();
     const maxPairs = parseInt(maxPairsInput); //입력 값(문자열)을 정수로 변환
 
@@ -58,10 +67,16 @@ class App {
     return maxPairs;
   } 
 
-  createPairs(names, maxPairs) {
+  shuffle(array, maxPairs) {
+    let shuffledArray = array.slice();
+    shuffledName = shuffledArray.sort(() => Math.random() - 0.5);
+    return this.createPairs(shuffledName, maxPairs); // 수정된 부분: createPairs의 반환값을 반환하도록 수정
+}
+
+createPairs(names, maxPairs) {
     let pairedMembers = []; // 페어를 저장할 빈 배열
 
-    while (names.length > 0) { //names에 이름이 남아있지 않을 때까지 반복
+    while (names.length > 0) { // names에 이름이 남아있지 않을 때까지 반복
         let group = []; // 새로운 그룹 생성
         for (let j = 0; j < maxPairs && names.length > 0; j++) {
             group.push(names.shift()); // 이름을 그룹에 추가
@@ -70,15 +85,18 @@ class App {
     }
 
     return pairedMembers;
-  }
+}
+
 
   
   printResult(pairs) { //pairs = 페어가 저장된 배열
     MyUtils.Console.print('오늘의 짝 추천 결과입니다.');
+    let groupString = ""
 
-    for (let i = 0; i < pairs.length; i++) { //각 그룹에 대해서 반복
+    if (pairs.length > 1) {
+      for (let i = 0; i < pairs.length; i++) { //각 그룹에 대해서 반복
         let groupMembers = pairs[i]; // 현재 짝 그룹을 groupMembers 변수에 할당
-        let groupString = '['; //짝 그룹 담을 빈 문자열 groupSrting 생성
+        groupString = '[ '; //짝 그룹 담을 빈 문자열 groupSrting 생성
 
         for (let j = 0; j < groupMembers.length; j++) { //그룹의 각 멤버를 groupString에 담음
           groupString += `${groupMembers[j]}`;
@@ -88,8 +106,11 @@ class App {
            } 
         } 
 
-      groupString += ']';
+      groupString += ' ]';
+    }
       MyUtils.Console.print(groupString);
+    } else {
+      MyUtils.Console.print(`[ ${pairs[0]} ]`);
     }
   }
 
