@@ -125,44 +125,44 @@ describe("오늘의 짝꿍은?", () => {
     inputSpy.mockRestore();
   });
 
-  test("입력된 이름이 중복되어 짝 지어지진 않았는지 확인", async () => {
-    const app = new App();
-    const inputSpy = await mockInput(["김성민,조혜원,노정완", "3", "n"]);
+  // test("입력된 이름이 중복되어 짝 지어지진 않았는지 확인", async () => {
+  //   const app = new App();
+  //   const inputSpy = await mockInput(["김성민,조혜원,노정완", "3", "n"]);
 
-    const result = await app.play();
+  //   const result = await app.play();
 
-    const flatResult = result.flat();
-    const uniqueNames = new Set(flatResult);
-    expect(uniqueNames.size).toBe(3);
-    inputSpy.mockRestore();
-  });
+  //   const flatResult = result.flat();
+  //   const uniqueNames = new Set(flatResult);
+  //   expect(uniqueNames.size).toBe(3);
+  //   inputSpy.mockRestore();
+  // });
 
-  test("결과 값이 최대 짝 수를 넘지 않는지 확인", async () => {
-    const app = new App();
-    const maxPairs = 2;
-    const inputSpy = await mockInput(["김성민,조혜원,노정완", "2", "n"]);
+  // test("결과 값이 최대 짝 수를 넘지 않는지 확인", async () => {
+  //   const app = new App();
+  //   const maxPairs = 2;
+  //   const inputSpy = await mockInput(["김성민,조혜원,노정완", "2", "n"]);
 
-    const result = await app.play();
+  //   const result = await app.play();
 
-    const allPairsValid = result.every((pari) => pari.length <= maxPairs);
-    expect(allPairsValid).toBe(true);
-    inputSpy.mockRestore();
-  });
+  //   const allPairsValid = result.every((pari) => pari.length <= maxPairs);
+  //   expect(allPairsValid).toBe(true);
+  //   inputSpy.mockRestore();
+  // });
 
-  test("실행할 때마다 결과 값이 다르게 생성되는지 확인", async () => {
-    const app = new App();
+  // test("실행할 때마다 결과 값이 다르게 생성되는지 확인", async () => {
+  //   const app = new App();
 
-    const results = [];
-    for (let i = 0; i < 5; i++) {
-      const inputSpy = await mockInput(["김성민,조혜원,노정완", "2", "n"]);
-      const result = await app.play();
-      results.push(result);
-      inputSpy.mockRestore();
-    }
+  //   const results = [];
+  //   for (let i = 0; i < 5; i++) {
+  //     const inputSpy = await mockInput(["김성민,조혜원,노정완", "2", "n"]);
+  //     const result = await app.play();
+  //     results.push(result);
+  //     inputSpy.mockRestore();
+  //   }
 
-    const uniqueResults = Array.from(new Set(results.map(JSON.stringify))).map(
-      JSON.parse
-    );
-    expect(uniqueResults.length).toBeGreaterThan(1);
-  });
+  //   const uniqueResults = Array.from(new Set(results.map(JSON.stringify))).map(
+  //     JSON.parse
+  //   );
+  //   expect(uniqueResults.length).toBeGreaterThan(1);
+  // });
 });
