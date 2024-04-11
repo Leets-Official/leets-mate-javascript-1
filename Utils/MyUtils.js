@@ -1,12 +1,6 @@
-const readline = require("readline");
+const readline = require('readline');
 
 const MyUtils = {
-  userInput: "",
-
-  setUserInput: (input) => {
-    MyUtils.userInput = input;
-  },
-
   Console: {
     print: (message) => {
       console.log(message);
@@ -19,7 +13,7 @@ const MyUtils = {
           output: process.stdout,
         });
 
-        rl.question("", (input) => {
+        rl.question('', (input) => {
           rl.close();
           resolve(input);
         });
