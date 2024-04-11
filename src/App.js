@@ -2,7 +2,8 @@ const MyUtils = require("../Utils/MyUtils");
 
 let names = [];
 let input, length;
-let checkRetry = 'y';
+let checkRetry;
+let result = [];
 
 class App {
   async play() {
@@ -16,12 +17,14 @@ class App {
         MyUtils.Console.print("최대 짝 수를 입력해주세요.");
         const maxPairs = await this.getMaxPairs();
 
+        checkRetry = 'y';
+
         while (checkRetry === 'y') {
 
           names = this.shuffle(names);
           
           MyUtils.Console.print("오늘의 짝 추천 결과입니다.");
-          this.printResult(this.createPairs(names, maxPairs));
+          result = this.printResult(this.createPairs(names, maxPairs));
 
           MyUtils.Console.print("다시 구성하시겠습니까? (y or n): ");
           checkRetry = await MyUtils.Console.readLineAsync();
@@ -38,6 +41,7 @@ class App {
     } catch (error) {
       throw new Error(`[ERROR] ${error.message}`);
     }
+    return result;
   }
 
   async getInputNames() {
@@ -51,9 +55,13 @@ class App {
       throw new Error(`이름은 한글로 입력해야 합니다.`);
     }
 
-    const arr = input.split(",");
-    length = arr.length;
-    return arr;
+    const splitArr = input.split(",");
+    length = splitArr.length;
+
+    const set = new Set(splitArr);
+    const deletedArr = [...set];
+
+    return deletedArr;
   }
 
   async getMaxPairs() {
@@ -91,8 +99,10 @@ class App {
   printResult(pairs) {
     pairs.forEach(pair => {
     const formattedPair = pair.join(' | ');
-    console.log(`[ ${formattedPair} ]`);
+    formattedPair
+    MyUtils.Console.print(`[ ${formattedPair} ]`);
     });
+    return pairs;
   }
 }
 
