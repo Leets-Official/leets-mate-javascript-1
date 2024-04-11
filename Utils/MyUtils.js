@@ -2,9 +2,19 @@ const readline = require("readline");
 
 const MyUtils = {
   userInput: "",
+  userInputArray: [],
+  maxPairs: 0,
+  result: [],
 
   setUserInput: (input) => {
     MyUtils.userInput = input;
+  },
+  setUserInputArray: (input) => {
+    MyUtils.userInputArray = input;
+  },
+
+  setMaxPairs: (input) => {
+    MyUtils.maxPairs = input;
   },
 
   Console: {
@@ -18,7 +28,6 @@ const MyUtils = {
           input: process.stdin,
           output: process.stdout,
         });
-
         rl.question("", (input) => {
           rl.close();
           resolve(input);
